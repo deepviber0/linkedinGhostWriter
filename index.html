@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkedin GhostWriter By Umar</title>
+    <style>
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color System */
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+
+            --secondary-50: #f0fdfa;
+            --secondary-100: #ccfbf1;
+            --secondary-200: #99f6e4;
+            --secondary-300: #5eead4;
+            --secondary-400: #2dd4bf;
+            --secondary-500: #14b8a6;
+            --secondary-600: #0d9488;
+            --secondary-700: #0f766e;
+            --secondary-800: #115e59;
+            --secondary-900: #134e4a;
+
+            --accent-50: #fff7ed;
+            --accent-100: #ffedd5;
+            --accent-200: #fed7aa;
+            --accent-300: #fdba74;
+            --accent-400: #fb923c;
+            --accent-500: #f97316;
+            --accent-600: #ea580c;
+            --accent-700: #c2410c;
+            --accent-800: #9a3412;
+            --accent-900: #7c2d12;
+
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            /* Spacing System (8px base) */
+            --space-1: 0.5rem;
+            --space-2: 1rem;
+            --space-3: 1.5rem;
+            --space-4: 2rem;
+            --space-5: 2.5rem;
+            --space-6: 3rem;
+            --space-8: 4rem;
+            --space-10: 5rem;
+            --space-12: 6rem;
+            --space-16: 8rem;
+
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --line-height-body: 1.5;
+            --line-height-heading: 1.2;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-normal: 250ms ease-in-out;
+            --transition-slow: 350ms ease-in-out;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: var(--line-height-body);
+        }
+
+       
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-4);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            padding: var(--space-6) 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-700);
+            line-height: var(--line-height-heading);
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Section Management */
+        .section {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-normal);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        /* Mode Selection */
+        .mode-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .mode-card {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card:hover {
+            border-color: var(--primary-300);
+            background: white;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .mode-card:hover::before {
+            left: 100%;
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-3);
+        }
+
+        .mode-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: var(--space-2);
+            line-height: var(--line-height-heading);
+        }
+
+        .mode-card p {
+            color: var(--gray-600);
+            margin-bottom: var(--space-3);
+        }
+
+        .mode-badge {
+            display: inline-block;
+            background: var(--primary-500);
+            color: white;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: var(--space-8);
+            gap: var(--space-2);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            opacity: 0.5;
+            transition: opacity var(--transition-normal);
+            position: relative;
+        }
+
+        .progress-step.active {
+            opacity: 1;
+        }
+
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 100%;
+            width: var(--space-4);
+            height: 2px;
+            background: var(--gray-300);
+            z-index: -1;
+        }
+
+        .progress-step.active:not(:last-child)::after {
+            background: var(--primary-500);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all var(--transition-normal);
+        }
+
+        .progress-step.active .step-number {
+            background: var(--primary-500);
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            text-align: center;
+        }
+
+        .progress-step.active .step-title {
+            color: var(--primary-600);
+            font-weight: 600;
+        }
+
+        /* Step Content */
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeInSlide 0.3s ease-out;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-content h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: var(--space-3);
+            line-height: var(--line-height-heading);
+        }
+
+        .step-description {
+            color: var(--gray-600);
+            margin-bottom: var(--space-6);
+            font-size: 1.125rem;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: var(--space-2);
+            font-size: 1rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--space-3);
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all var(--transition-normal);
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: var(--line-height-body);
+        }
+
+        .post-textarea {
+            min-height: 150px;
+            margin-bottom: var(--space-4);
+        }
+
+        /* Toggle Group */
+        .toggle-group {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            justify-content: center;
+        }
+
+        .toggle-option {
+            cursor: pointer;
+        }
+
+        .toggle-option input[type="radio"] {
+            display: none;
+        }
+
+        .toggle-btn {
+            display: block;
+            padding: var(--space-3) var(--space-5);
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            background: white;
+            color: var(--gray-700);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .toggle-option input[type="radio"]:checked+.toggle-btn {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+            color: var(--primary-700);
+            transform: scale(1.05);
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--primary-400);
+            background: var(--primary-25);
+        }
+
+        /* Conditional Content */
+        .conditional-content {
+            display: none;
+        }
+
+        .conditional-content.active {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn-primary,
+        .btn-secondary,
+        .btn-outline {
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            border: 2px solid transparent;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--primary-500);
+            color: white;
+            border-color: var(--primary-500);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-600);
+            border-color: var(--primary-600);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+            border-color: var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-600);
+            border-color: var(--primary-300);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-500);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled,
+        .btn-secondary:disabled,
+        .btn-outline:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary:disabled:hover,
+        .btn-secondary:disabled:hover,
+        .btn-outline:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Step Navigation */
+        .step-navigation {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: space-between;
+            margin-top: var(--space-6);
+        }
+
+        /* Loading Section */
+        .loading-content {
+            text-align: center;
+            padding: var(--space-8) 0;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-500);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-6);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-description {
+            color: var(--gray-600);
+            margin-bottom: var(--space-6);
+            font-size: 1.125rem;
+        }
+
+        .loading-steps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .loading-step {
+            padding: var(--space-2) var(--space-4);
+            background: var(--gray-100);
+            border-radius: var(--radius-md);
+            color: var(--gray-600);
+            transition: all var(--transition-normal);
+        }
+
+        .loading-step.active {
+            background: var(--primary-100);
+            color: var(--primary-700);
+            transform: scale(1.02);
+        }
+
+        /* Results Section */
+        .results-description {
+            color: var(--gray-600);
+            margin-bottom: var(--space-6);
+            text-align: center;
+            font-size: 1.125rem;
+        }
+
+        .generated-post {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-6);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .post-time {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .post-content {
+            line-height: var(--line-height-body);
+            color: var(--gray-800);
+            margin-bottom: var(--space-5);
+            white-space: pre-wrap;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: var(--space-4);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .action-btn:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .results-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-2);
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .mode-options {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-bar {
+                flex-direction: column;
+                gap: var(--space-1);
+            }
+
+            .progress-step:not(:last-child)::after {
+                display: none;
+            }
+
+            .toggle-group {
+                flex-direction: column;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+            }
+
+            .results-actions {
+                flex-direction: column;
+            }
+
+            .post-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+
+            .post-actions {
+                flex-wrap: wrap;
+                gap: var(--space-2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: var(--space-4);
+            }
+
+            .step-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn-primary,
+            .btn-secondary,
+            .btn-outline {
+                padding: var(--space-2) var(--space-4);
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .card {
+                border-width: 2px;
+            }
+
+            .btn-primary,
+            .btn-secondary,
+            .btn-outline {
+                border-width: 3px;
+            }
+        }
+
+        /* Focus visible for keyboard navigation */
+        .form-input:focus-visible,
+        .form-select:focus-visible,
+        .form-textarea:focus-visible,
+        .btn-primary:focus-visible,
+        .btn-secondary:focus-visible,
+        .btn-outline:focus-visible,
+        .mode-card:focus-visible {
+            outline: 3px solid var(--primary-500);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+                <h1>LinkedIn Ghostwriter AI</h1>
+            </div>
+            <p class="subtitle">Create personalized LinkedIn posts that match your unique writing style</p>
+        </header>
+
+        <!-- Mode Selection -->
+        <section id="mode-selection" class="section active">
+            <div class="card">
+                <h2>Choose Your Analysis Mode</h2>
+                <p class="description">Select how you'd like to provide your writing samples for tone analysis</p>
+
+                <div class="mode-options">
+                    <div class="mode-card" onclick="selectMode('manual')">
+                        <div class="mode-icon">📝</div>
+                        <h3>Manual Style Sample Input</h3>
+                        <p>Submit 3-5 previous LinkedIn posts for comprehensive tone analysis</p>
+                        <div class="mode-badge">Recommended</div>
+                    </div>
+
+                    <div class="mode-card" onclick="selectMode('featured')">
+                        <div class="mode-icon">⭐</div>
+                        <h3>Featured Post Shortcut</h3>
+                        <p>Use your LinkedIn featured posts or submit 2 recent posts</p>
+                        <div class="mode-badge">Quick Setup</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode 2: Manual Style Sample Input -->
+        <section id="manual-mode" class="section">
+            <div class="card">
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Post Count</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Style Samples</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Topic & Context</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Choose Number of Posts -->
+                <div id="manual-step-1" class="step-content active">
+                    <h2>📌 Step 1: Choose Number of Previous Posts</h2>
+                    <p class="step-description">How many previous LinkedIn posts would you like to submit for tone/style
+                        analysis?</p>
+
+                    <div class="form-group">
+                        <label for="post-count">Number of Posts</label>
+                        <select id="post-count" class="form-select">
+                            <option value="">Select number of posts</option>
+                            <option value="2">2 posts</option>
+                            <option value="3">3 posts</option>
+                            <option value="4">4 posts</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary" onclick="proceedToManualStep2()">Continue</button>
+                </div>
+
+                <!-- Step 2: Input Previous Posts -->
+                <div id="manual-step-2" class="step-content">
+                    <h2>📥 Step 2: Submit Your Previous Posts</h2>
+                    <p class="step-description">Paste the content of each previous post below:</p>
+
+                    <div id="post-textareas"></div>
+
+                    <div class="step-navigation">
+                        <button class="btn-secondary" onclick="goToManualStep(1)">Back</button>
+                        <button class="btn-primary" onclick="proceedToManualStep3()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Topic & Context -->
+                <div id="manual-step-3" class="step-content">
+                    <h2>📌 Step 3: Input Topic & Context</h2>
+                    <p class="step-description">Provide details about your new post</p>
+
+                    <div class="form-group">
+                        <label for="manual-topic">✏️ Topic</label>
+                        <input type="text" id="manual-topic" class="form-input" placeholder="Enter your post topic...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manual-perspective">📌 Bullet Points / Perspective</label>
+                        <textarea id="manual-perspective" class="form-textarea"
+                            placeholder="Share your key points, insights, or perspective..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="manual-category">📂 Category</label>
+                        <select id="manual-category" class="form-select">
+                            <option value="">Select category</option>
+                            <option value="tech">Tech</option>
+                            <option value="motivation">Motivation</option>
+                            <option value="career">Career</option>
+                            <option value="life">Life</option>
+                            <option value="business">Business</option>
+                            <option value="leadership">Leadership</option>
+                            <option value="entrepreneurship">Entrepreneurship</option>
+                        </select>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn-secondary" onclick="goToManualStep(2)">Back</button>
+                        <button class="btn-primary" onclick="generatePost('manual')">Generate Post</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode 3: Featured Post Shortcut -->
+        <section id="featured-mode" class="section">
+            <div class="card">
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Featured Posts</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Style Input</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Topic & Context</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Featured Posts Check -->
+                <div id="featured-step-1" class="step-content active">
+                    <h2>🧾 Step 1: Do You Have Featured Posts?</h2>
+                    <p class="step-description">Does your LinkedIn profile have a Featured Posts section?</p>
+
+                    <div class="toggle-group">
+                        <label class="toggle-option">
+                            <input type="radio" name="has-featured" value="yes" onchange="handleFeaturedToggle('yes')">
+                            <span class="toggle-btn">✅ Yes</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="radio" name="has-featured" value="no" onchange="handleFeaturedToggle('no')">
+                            <span class="toggle-btn">❌ No</span>
+                        </label>
+                    </div>
+
+                    <button class="btn-primary" onclick="proceedToFeaturedStep2()" disabled
+                        id="featured-continue-btn">Continue</button>
+                </div>
+
+                <!-- Step 2: Style Input -->
+                <div id="featured-step-2" class="step-content">
+                    <h2 id="featured-step-2-title">📥 Step 2: Submit Your Content</h2>
+
+                    <div id="featured-yes-content" class="conditional-content">
+                        <div class="form-group">
+                            <label for="linkedin-url">📝 LinkedIn Profile URL (optional)</label>
+                            <input type="url" id="linkedin-url" class="form-input"
+                                placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="featured-post">📝 Featured Post Content</label>
+                            <textarea id="featured-post" class="form-textarea"
+                                placeholder="Paste the content of your featured post for tone/style analysis..."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="featured-no-content" class="conditional-content">
+                        <div class="form-group">
+                            <label for="first-post">📝 First Previous Post</label>
+                            <textarea id="first-post" class="form-textarea"
+                                placeholder="Paste the content of your first previous LinkedIn post..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="second-post">📝 Second Previous Post</label>
+                            <textarea id="second-post" class="form-textarea"
+                                placeholder="Paste the content of your second previous LinkedIn post..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn-secondary" onclick="goToFeaturedStep(1)">Back</button>
+                        <button class="btn-primary" onclick="proceedToFeaturedStep3()">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Topic & Context -->
+                <div id="featured-step-3" class="step-content">
+                    <h2>📌 Step 3: Input Topic & Context</h2>
+                    <p class="step-description">Provide details about your new post</p>
+
+                    <div class="form-group">
+                        <label for="featured-topic">✏️ Topic</label>
+                        <input type="text" id="featured-topic" class="form-input"
+                            placeholder="Enter your post topic...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="featured-perspective">📌 Bullet Points / Perspective</label>
+                        <textarea id="featured-perspective" class="form-textarea"
+                            placeholder="Share your key points, insights, or perspective..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="featured-category">📂 Category</label>
+                        <select id="featured-category" class="form-select">
+                            <option value="">Select category</option>
+                            <option value="tech">Tech</option>
+                            <option value="motivation">Motivation</option>
+                            <option value="career">Career</option>
+                            <option value="life">Life</option>
+                            <option value="business">Business</option>
+                            <option value="leadership">Leadership</option>
+                            <option value="entrepreneurship">Entrepreneurship</option>
+                        </select>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button class="btn-secondary" onclick="goToFeaturedStep(2)">Back</button>
+                        <button class="btn-primary" onclick="generatePost('featured')">Generate Post</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Section -->
+        <section id="loading-section" class="section">
+            <div class="card">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <h2>🧠 Analyzing Your Writing Style...</h2>
+                    <p class="loading-description">Our AI is studying your tone, structure, and style patterns to create
+                        the perfect LinkedIn post.</p>
+                    <div class="loading-steps">
+                        <div class="loading-step active">Analyzing tone and voice</div>
+                        <div class="loading-step">Identifying writing patterns</div>
+                        <div class="loading-step">Crafting personalized content</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="section">
+            <div class="card">
+                <h2>✨ Your Personalized LinkedIn Post</h2>
+                <p class="results-description">Here's your AI-generated post that matches your unique writing style</p>
+
+                <div class="generated-post">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <div class="author-avatar">🤖</div>
+                            <div class="author-info">
+                                <h2>Your Context Is Ready !!</h2>
+                                <h4>GhostWriter</h4>
+                            </div>
+                        </div>
+                        <div class="post-time">Now</div>
+                    </div>
+
+                    <div class="post-content" id="generated-content">
+                        <!-- Generated content will appear here -->
+                    </div>
+
+                    <div class="post-actions">
+                        <button class="action-btn">👍 Like</button>
+                        <button class="action-btn">💬 Comment</button>
+                        <button class="action-btn">🔄 Repost</button>
+                        <button class="action-btn">📤 Send</button>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn-secondary" onclick="copyToClipboard()">📋 Copy Post</button>
+                    <button class="btn-primary" onclick="regeneratePost()">🔄 Regenerate</button>
+                    <button class="btn-outline" onclick="startOver()">🏠 Start Over</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+
+        function goToManualStep(step) {
+            // Hide all manual steps
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`manual-step-${i}`).classList.remove('active');
+            }
+
+            // Show the requested step
+            document.getElementById(`manual-step-${step}`).classList.add('active');
+
+            // Update the progress bar
+            const steps = document.querySelectorAll('#manual-mode .progress-step');
+            steps.forEach((el, idx) => {
+                el.classList.toggle('active', idx + 1 <= step);
+            });
+
+            // Update current step tracker
+            currentStep = step;
+        }
+
+
+        function goToFeaturedStep(step) {
+            // Hide all step contents
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`featured-step-${i}`).classList.remove('active');
+            }
+
+            // Show the selected step
+            document.getElementById(`featured-step-${step}`).classList.add('active');
+
+            // Update the progress bar
+            const steps = document.querySelectorAll('#featured-mode .progress-step');
+            steps.forEach((el, idx) => {
+                el.classList.toggle('active', idx + 1 <= step);
+            });
+        }
+
+        //const name=document.getElementById("name").value
+        //const prof=document.getElementById("prof").value
+        let currentMode = null;
+        let currentStep = 1;
+        let hasFeaturedPosts = null;
+
+        function selectMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-selection').classList.remove('active');
+            if (mode === 'manual') {
+                document.getElementById('manual-mode').classList.add('active');
+                resetManualMode();
+            } else {
+                document.getElementById('featured-mode').classList.add('active');
+                resetFeaturedMode();
+            }
+        }
+
+        // --- Manual Mode ---
+        function resetManualMode() {
+            currentStep = 1;
+            updateManualProgressBar();
+            showManualStep(1);
+        }
+
+        function updateManualProgressBar() {
+            document.querySelectorAll('#manual-mode .progress-step').forEach((step, i) => {
+                step.classList.toggle('active', i + 1 <= currentStep);
+            });
+        }
+
+        function showManualStep(step) {
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`manual-step-${i}`).classList.remove('active');
+            }
+            document.getElementById(`manual-step-${step}`).classList.add('active');
+            currentStep = step;
+            updateManualProgressBar();
+        }
+
+        function proceedToManualStep2() {
+            const count = document.getElementById('post-count').value;
+            if (!count) return alert('Please select the number of posts.');
+            generatePostTextareas(parseInt(count));
+            showManualStep(2);
+        }
+
+        function generatePostTextareas(count) {
+            const container = document.getElementById('post-textareas');
+            container.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                group.innerHTML = `
+            <label for="post-${i}">📝 Previous Post ${i}</label>
+            <textarea id="post-${i}" class="form-textarea post-textarea" placeholder="Paste your ${getOrdinal(i)} LinkedIn post..." required></textarea>
+        `;
+                container.appendChild(group);
+            }
+        }
+
+        function getOrdinal(num) {
+            const ordinals = ['', 'first', 'second', 'third', 'fourth', 'fifth'];
+            return ordinals[num] || `${num}th`;
+        }
+
+        function proceedToManualStep3() {
+            const allFilled = [...document.querySelectorAll('#post-textareas textarea')].every(textarea => {
+                if (!textarea.value.trim()) {
+                    textarea.style.borderColor = 'var(--error-500)';
+                    return false;
+                } else {
+                    textarea.style.borderColor = 'var(--gray-300)';
+                    return true;
+                }
+            });
+            if (!allFilled) return alert('Please fill in all previous post content.');
+            showManualStep(3);
+        }
+
+        // --- Featured Mode ---
+        function resetFeaturedMode() {
+            currentStep = 1;
+            hasFeaturedPosts = null;
+            updateFeaturedProgressBar();
+            showFeaturedStep(1);
+            document.querySelectorAll('input[name="has-featured"]').forEach(r => r.checked = false);
+            document.getElementById('featured-continue-btn').disabled = true;
+        }
+
+        function updateFeaturedProgressBar() {
+            document.querySelectorAll('#featured-mode .progress-step').forEach((step, i) => {
+                step.classList.toggle('active', i + 1 <= currentStep);
+            });
+        }
+
+        function showFeaturedStep(step) {
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`featured-step-${i}`).classList.remove('active');
+            }
+            document.getElementById(`featured-step-${step}`).classList.add('active');
+            currentStep = step;
+            updateFeaturedProgressBar();
+        }
+
+        function handleFeaturedToggle(value) {
+            hasFeaturedPosts = value === 'yes';
+            document.getElementById('featured-continue-btn').disabled = false;
+        }
+
+        function proceedToFeaturedStep2() {
+            if (hasFeaturedPosts === null) return alert('Please select whether you have featured posts.');
+            document.getElementById('featured-yes-content').classList.toggle('active', hasFeaturedPosts);
+            document.getElementById('featured-no-content').classList.toggle('active', !hasFeaturedPosts);
+            showFeaturedStep(2);
+        }
+
+        function proceedToFeaturedStep3() {
+            let isValid = true;
+            if (hasFeaturedPosts) {
+                const val = document.getElementById('featured-post').value.trim();
+                isValid = val !== '';
+                document.getElementById('featured-post').style.borderColor = isValid ? 'var(--gray-300)' : 'var(--error-500)';
+            } else {
+                const first = document.getElementById('first-post').value.trim();
+                const second = document.getElementById('second-post').value.trim();
+                isValid = !!first && !!second;
+                document.getElementById('first-post').style.borderColor = first ? 'var(--gray-300)' : 'var(--error-500)';
+                document.getElementById('second-post').style.borderColor = second ? 'var(--gray-300)' : 'var(--error-500)';
+            }
+            if (!isValid) return alert('Please fill in all required fields.');
+            showFeaturedStep(3);
+        }
+
+        // --- Post Generation ---
+        function generatePost(mode) {
+            let topic = document.getElementById(`${mode}-topic`).value.trim();
+            let perspective = document.getElementById(`${mode}-perspective`).value.trim();
+            let category = document.getElementById(`${mode}-category`).value;
+            let isValid = topic && perspective && category;
+
+            ['topic', 'perspective', 'category'].forEach(id => {
+                const field = document.getElementById(`${mode}-${id}`);
+                field.style.borderColor = field.value.trim() ? 'var(--gray-300)' : 'var(--error-500)';
+            });
+
+            if (!isValid) return alert('Please fill in all required fields.');
+
+            document.getElementById(`${mode}-mode`).classList.remove('active');
+            document.getElementById('loading-section').classList.add('active');
+            simulateLoading(topic, perspective, category);
+        }
+
+        function simulateLoading(topic, perspective, category) {
+            const steps = document.querySelectorAll('.loading-step');
+            let current = 0;
+
+            const interval = setInterval(() => {
+                if (current > 0) steps[current - 1].classList.remove('active');
+                if (current < steps.length) {
+                    steps[current].classList.add('active');
+                    current++;
+                } else {
+                    clearInterval(interval);
+                    generateActualPost(topic, perspective, category);
+                }
+            }, 1500);
+        }
+
+        async function generateActualPost(topic, perspective, category) {
+            const webhookUrl = "https://duotechcodex.app.n8n.cloud/webhook-test/d2d4342f-c128-41c0-8c19-840855d034fc"; // ✅ Only one webhook now
+
+            let payload = {};
+
+            if (currentMode === "featured") {
+                let postContent = "";
+                let linkedinUrl = "";
+
+                if (hasFeaturedPosts) {
+                    const input = document.getElementById("linkedin-url").value.trim();
+                    const isUrl = input.startsWith("http://") || input.startsWith("https://");
+
+                    if (isUrl) {
+                        linkedinUrl = input;
+                    } else {
+                        postContent = input;
+                    }
+                } else {
+                    const first = document.getElementById("first-post").value.trim();
+                    const second = document.getElementById("second-post").value.trim();
+                    postContent = `${first}\n\n---\n\n${second}`;
+                }
+
+                payload = {
+                    topic,
+                    perspective,
+                    category,
+                    mode: "featured",
+                    postContent,
+                    linkedinUrl
+                };
+
+            } else if (currentMode === "manual") {
+                const textareas = document.querySelectorAll(".post-textarea");
+                const postsArray = Array.from(textareas).map(ta => ta.value.trim()).filter(Boolean);
+
+                payload = {
+                    topic,
+                    perspective,
+                    category,
+                    mode: "manual",
+                    postsArray
+                };
+            }
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                const generatedPost = data.message || "⚠️ No LinkedIn post received from AI.";
+
+                document.getElementById('loading-section').classList.remove('active');
+                document.getElementById('generated-content').innerText = generatedPost;
+                document.getElementById('results-section').classList.add('active');
+
+            } catch (error) {
+                console.error("Webhook error:", error);
+                document.getElementById('loading-section').classList.remove('active');
+                document.getElementById('generated-content').innerText = "❌ Failed to generate post. Please try again.";
+                document.getElementById('results-section').classList.add('active');
+            }
+        }
+
+
+
+        function copyToClipboard() {
+            const content = document.getElementById('generated-content').innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = 'var(--success-500)';
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        function regeneratePost() {
+            const topic = document.getElementById(`${currentMode}-topic`).value;
+            const perspective = document.getElementById(`${currentMode}-perspective`).value;
+            const category = document.getElementById(`${currentMode}-category`).value;
+
+            document.getElementById('results-section').classList.remove('active');
+            document.getElementById('loading-section').classList.add('active');
+            simulateLoading(topic, perspective, category);
+        }
+
+        function startOver() {
+            ['results-section', 'loading-section', 'manual-mode', 'featured-mode'].forEach(id =>
+                document.getElementById(id).classList.remove('active')
+            );
+            document.getElementById('mode-selection').classList.add('active');
+            currentMode = null;
+            currentStep = 1;
+            hasFeaturedPosts = null;
+
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.type === 'radio') el.checked = false;
+                else el.value = '';
+                el.style.borderColor = '';
+            });
+
+            document.getElementById('post-textareas').innerHTML = '';
+            document.querySelectorAll('.conditional-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('featured-continue-btn').disabled = true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.mode-card').forEach((card, index) => {
+                card.setAttribute('role', 'button');
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('aria-label', `Select mode ${index + 1}`);
+                card.addEventListener('keydown', e => {
+                    if (['Enter', ' '].includes(e.key)) {
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
